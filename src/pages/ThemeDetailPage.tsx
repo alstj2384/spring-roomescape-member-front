@@ -53,19 +53,13 @@ export default function ThemeDetailPage() {
     setSubmitting(true)
     setMessage(null)
     try {
-      await api.reservations.create({
+      const reservation = await api.reservations.create({
         name: name.trim(),
         themeId: Number(id),
         date: selectedDate,
         timeId: selectedTimeId,
       })
-      setMessage({ type: 'success', text: '예약이 완료되었습니다! 탈출을 즐기세요.' })
-      setSelectedTimeId(null)
-      setName('')
-      // 예약 완료 후 가용 시간 갱신
-      api.times.available(selectedDate, Number(id))
-        .then((available) => setAvailableIds(new Set(available.map((t) => t.id))))
-        .catch(() => {})
+      navigate(`/reservations/${reservation.id}`)
     } catch (err) {
       setMessage({ type: 'error', text: err instanceof Error ? err.message : '예약에 실패했습니다.' })
     } finally {

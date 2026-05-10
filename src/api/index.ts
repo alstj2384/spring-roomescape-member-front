@@ -20,17 +20,18 @@ export const api = {
   themes: {
     list: () => request<Theme[]>('/themes'),
     get: (id: number) => request<Theme>(`/themes/${id}`),
-    famous: (params?: { days?: number; limit?: number }) => {
+    famous: (params?: { days?: number; limit?: number; date?: string }) => {
       const q = new URLSearchParams();
       if (params?.days) q.set('days', String(params.days));
       if (params?.limit) q.set('limit', String(params.limit));
+      if (params?.date) q.set('date', params.date);
       return request<Theme[]>(`/themes/famous?${q}`);
     },
     create: (body: Omit<Theme, 'id'>) =>
-      request<Theme>('/themes', { method: 'POST', body: JSON.stringify(body) }),
+      request<Theme>('/admin/themes', { method: 'POST', body: JSON.stringify(body) }),
     update: (id: number, body: Omit<Theme, 'id'>) =>
-      request<Theme>(`/themes/${id}`, { method: 'PUT', body: JSON.stringify(body) }),
-    delete: (id: number) => request<void>(`/themes/${id}`, { method: 'DELETE' }),
+      request<Theme>(`/admin/themes/${id}`, { method: 'PUT', body: JSON.stringify(body) }),
+    delete: (id: number) => request<void>(`/admin/themes/${id}`, { method: 'DELETE' }),
   },
 
   times: {
@@ -38,14 +39,15 @@ export const api = {
     available: (date: string, themeId: number) =>
       request<ReservationTime[]>(`/times/available?date=${date}&themeId=${themeId}`),
     create: (startAt: string) =>
-      request<ReservationTime>('/times', { method: 'POST', body: JSON.stringify({ startAt }) }),
-    delete: (id: number) => request<void>(`/times/${id}`, { method: 'DELETE' }),
+      request<ReservationTime>('/admin/times', { method: 'POST', body: JSON.stringify({ startAt }) }),
+    delete: (id: number) => request<void>(`/admin/times/${id}`, { method: 'DELETE' }),
   },
 
   reservations: {
     list: () => request<Reservation[]>('/reservations'),
+    get: (id: number) => request<Reservation>(`/reservations/${id}`),
     create: (body: { name: string; themeId: number; date: string; timeId: number }) =>
       request<Reservation>('/reservations', { method: 'POST', body: JSON.stringify(body) }),
-    delete: (id: number) => request<void>(`/reservations/${id}`, { method: 'DELETE' }),
+    delete: (id: number) => request<void>(`/admin/reservations/${id}`, { method: 'DELETE' }),
   },
 };

@@ -1,5 +1,5 @@
 import { Outlet, NavLink } from 'react-router-dom'
-import { Lock, Home, Grid3X3, BookOpen, Settings } from 'lucide-react'
+import { Lock, Home, TrendingUp, CalendarCheck, Settings } from 'lucide-react'
 
 export default function Layout() {
   const linkClass = ({ isActive }: { isActive: boolean }) =>
@@ -25,12 +25,12 @@ export default function Layout() {
               <span className="hidden sm:inline">홈</span>
             </NavLink>
             <NavLink to="/themes" className={linkClass}>
-              <Grid3X3 size={16} />
-              <span className="hidden sm:inline">테마</span>
+              <TrendingUp size={16} />
+              <span className="hidden sm:inline">인기 테마</span>
             </NavLink>
             <NavLink to="/reservations" className={linkClass}>
-              <BookOpen size={16} />
-              <span className="hidden sm:inline">예약</span>
+              <CalendarCheck size={16} />
+              <span className="hidden sm:inline">예약 내역</span>
             </NavLink>
             <NavLink to="/admin" className={linkClass}>
               <Settings size={16} />
